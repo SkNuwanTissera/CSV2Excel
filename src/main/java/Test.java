@@ -1,13 +1,31 @@
 import java.io.*;
+import java.util.logging.Logger;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import au.com.bytecode.opencsv.CSVReader;
 
-class Test {
+class temp {
+    private static String filepath;
+    private static int noOflines = 0;
+
+//    private static Logger logger = Logger.getLogger(Test.class);
+
     public static void main(String[] args) throws IOException {
 
+        /*
+        no Of lines per page and filepath as para args
+         */
 
-        CSVReader reader = new CSVReader(new FileReader("C:\\code\\krypton\\eclipse\\studio-wizard\\CSV2Excel\\src\\main\\resources\\data.csv"));
+        try {
+            noOflines = Integer.parseInt(args[1]);
+            filepath = args[0];
+        }
+        catch (Exception e){
+//            Logger.log
+        }
+
+        CSVReader reader = new CSVReader(new FileReader(filepath));
         String[] line;
 
         int r = 0;
@@ -25,9 +43,9 @@ class Test {
             count ++;
             Row row = sheet.createRow((short) r++);
             for (int i = 0; i < line.length; i++){
-                    row.createCell(i).setCellValue(helper.createRichTextString(line[i]));
-                }
-            if (count ==30000) {
+                row.createCell(i).setCellValue(helper.createRichTextString(line[i]));
+            }
+            if (count == noOflines) {
                 FileOutputStream fileOut = new FileOutputStream(id+"krypton.xls");
                 wb.write(fileOut);
                 fileOut.close();
